@@ -1,0 +1,11 @@
+node_modules
+.vercel
+dist
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+ormconfig.json
+.env
