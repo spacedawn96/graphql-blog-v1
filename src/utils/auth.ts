@@ -46,6 +46,10 @@ export const createTokens = (user: User) => {
 
 export const sendRefreshToken = (res: Response, token: string) => {
   res.cookie('jid', token, {
+    path: '',
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    domain: '.vercel-client.vercel.app',
   });
 };

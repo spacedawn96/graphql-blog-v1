@@ -21,16 +21,30 @@ import Followers from './entity/Followers';
 import createLoaders from './loaders/createLoader';
 import { ValidateTokensMiddleware } from './middlewares/ValidateTokensMiddleware';
 import auth from './routes/auth';
-import path from 'path';
 
 dotenv.config();
 
 const main = async () => {
+  const app = express();
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    }),
+  );
+
+  app.use(cookieParser());
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
+  app.use(ValidateTokensMiddleware);
+  app.use('/', auth);
+
   const connection = await createConnection({
     type: 'postgres',
-    url: process.env.DATABASE_URL
-      ? process.env.DATABASE_URL
-      : process.env.DATABASE,
+    url:
+      process.env.NODE_ENV === 'production'
+        ? process.env.DATABASE_URL
+        : process.env.DATABASE,
     logging: false,
     synchronize: true,
 
@@ -65,18 +79,10 @@ const main = async () => {
     }),
   });
 
-  const app = express();
-  app.use(cookieParser());
-  app.use(express.json({ limit: '50mb' }));
-  app.use(express.urlencoded({ limit: '50mb', extended: true }));
-  app.use(ValidateTokensMiddleware);
-  app.use('/', auth);
+  app.set('trust proxy', 1);
   server.applyMiddleware({
     app,
-    cors: {
-      credentials: true,
-      origin: process.env.CORS_ORIGIN,
-    },
+    cors: false,
   });
 
   app.listen(process.env.PORT || 4000, () => {
