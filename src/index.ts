@@ -78,8 +78,6 @@ const main = async () => {
     app,
     cors: {
       origin: '*',
-      exposedHeaders: 'Authorization',
-      allowedHeaders: 'Authorization',
       credentials: true,
     },
   });
