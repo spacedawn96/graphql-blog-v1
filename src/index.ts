@@ -77,7 +77,7 @@ const main = async () => {
   server.applyMiddleware({
     app,
     cors: {
-      origin: '*',
+      origin: process.env.CORS_ORIGIN,
       credentials: true,
     },
   });
