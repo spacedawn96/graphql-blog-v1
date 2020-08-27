@@ -26,7 +26,12 @@ dotenv.config();
 
 const main = async () => {
   const app = express();
-  app.use(cors());
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    }),
+  );
   app.get('/', (_req, res) => res.send('mainPage'));
   app.use(cookieParser());
   app.use(express.json({ limit: '50mb' }));
@@ -77,7 +82,6 @@ const main = async () => {
   app.set('trust proxy', 1);
   server.applyMiddleware({
     app,
-    cors: false,
   });
 
   app.listen(process.env.PORT || 4000, () => {
