@@ -26,13 +26,13 @@ dotenv.config();
 
 const main = async () => {
   const app = express();
+  app.set('trust proxy', 1);
   app.get('/', (_req, res) => res.send('mainPage'));
   app.use(cookieParser());
   app.use(express.json({ limit: '50mb' }));
   app.use(express.urlencoded({ limit: '50mb', extended: true }));
   app.use(ValidateTokensMiddleware);
   app.use('/', auth);
-
   const connection = await createConnection({
     type: 'postgres',
     url:
@@ -73,11 +73,13 @@ const main = async () => {
     }),
   });
 
-  app.set('trust proxy', 1);
   server.applyMiddleware({
     app,
     cors: {
-      origin: process.env.CORS_ORIGIN,
+      origin:
+        process.env.NODE_ENV === 'production'
+          ? process.env.CORS_ORIGIN
+          : 'localhost:4000/graphql',
       credentials: true,
     },
   });
