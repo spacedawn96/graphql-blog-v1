@@ -49,7 +49,7 @@ export const sendRefreshToken = (res: Response, token: string) => {
     path: '/',
     httpOnly: true,
     secure: false,
-    domain: '.blog-server-v1.herokuapp.com',
+    domain: '.vercel-client.vercel.app',
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
   });
 };
