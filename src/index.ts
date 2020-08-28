@@ -29,7 +29,10 @@ const main = async () => {
   app.set('trust proxy', 1);
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin:
+        process.env.NODE_ENV === 'production'
+          ? process.env.CORS_ORIGIN
+          : 'http://localhost:3000',
       credentials: true,
     }),
   );
@@ -81,9 +84,7 @@ const main = async () => {
 
   server.applyMiddleware({
     app,
-    cors: {
-      origin: false,
-    },
+    cors: false,
   });
 
   app.listen(process.env.PORT || 4000, () => {
