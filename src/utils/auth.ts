@@ -49,6 +49,5 @@ export const sendRefreshToken = (res: Response, token: string) => {
     httpOnly: true,
     secure: false,
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    domain: '.vercel-client.vercel.app/',
   });
 };
