@@ -14,7 +14,7 @@ function normalize<T>(
   return object;
 }
 
-const FollowerLoader = async (ids) => {
+const FollowerLoader = async (ids: any) => {
   const follower = getRepository(Followers);
   const userFollower = await follower
     .createQueryBuilder('followers')
@@ -22,7 +22,7 @@ const FollowerLoader = async (ids) => {
     .getMany();
 
   const normalized = normalize(userFollower, (follower) => follower.user_id);
-  const ordered = ids.map((id) => normalized[id]);
+  const ordered = ids.map((id: any) => normalized[id]);
   return ordered;
 };
 

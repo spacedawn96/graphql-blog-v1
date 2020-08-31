@@ -16,7 +16,7 @@ function normalize<T>(
   return object;
 }
 
-const CommentsLoader = async (ids) => {
+const CommentsLoader = async (ids: any) => {
   const posts = await getManager()
     .createQueryBuilder(Post, 'post')
     .leftJoinAndSelect('post.comments', 'comment')
@@ -28,7 +28,7 @@ const CommentsLoader = async (ids) => {
     .getMany();
 
   const normalized = normalize<Post>(posts);
-  const getcomments = ids.map((id) =>
+  const getcomments = ids.map((id: any) =>
     normalized[id] ? normalized[id].comments : []
   );
 

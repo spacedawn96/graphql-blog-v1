@@ -15,7 +15,7 @@ function normalize<T>(
   return object;
 }
 
-const ProfileLoader = async (ids) => {
+const ProfileLoader = async (ids: any) => {
   const profile = getRepository(UserProfile);
   const profiles = await profile
     .createQueryBuilder('user_profiles')
@@ -24,7 +24,7 @@ const ProfileLoader = async (ids) => {
 
   const normalized = normalize(profiles, (profile) => profile.user_id);
 
-  const ordered = ids.map((id) => normalized[id]);
+  const ordered = ids.map((id: any) => normalized[id]);
   return ordered;
 };
 

@@ -5,11 +5,8 @@ import {
   Index,
   UpdateDateColumn,
   CreateDateColumn,
-  OneToOne,
   JoinColumn,
   ManyToOne,
-  getRepository,
-  getManager,
 } from 'typeorm';
 import User from './User';
 import Post from './Post';
@@ -53,11 +50,11 @@ export default class Comment {
   @UpdateDateColumn()
   updated_at!: Date;
 
-  @ManyToOne((type) => User)
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user!: User;
 
-  @ManyToOne((type) => Post, (post) => post.comments)
+  @ManyToOne(() => Post, (post) => post.comments)
   @JoinColumn({ name: 'post_id' })
   post!: Post;
 

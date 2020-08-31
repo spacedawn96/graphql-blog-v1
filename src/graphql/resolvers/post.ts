@@ -4,7 +4,6 @@ import Post from '../../entity/Post';
 import PostLike from '../../entity/PostLike';
 import PostScore from '../../entity/PostScore';
 import { escape, checkEmpty } from '../../utils/checkString';
-import Tag from '../../entity/Tag';
 import { cloudinary } from '../../utils/cloudinary';
 import PostReadLog from '../../entity/PostReadLog';
 import hash from '../../utils/crypto';
@@ -78,7 +77,9 @@ export const resolvers: IResolvers = {
         .max_results(200)
         .execute();
 
-      const publicIds = resources.map((file) => file.public_id);
+      const publicIds = resources.map(
+        (file: { public_id: any }) => file.public_id
+      );
 
       return {
         public_id: publicIds,

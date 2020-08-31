@@ -15,7 +15,7 @@ function normalize<T>(
   return object;
 }
 
-const TagsLoader = async (ids) => {
+const TagsLoader = async (ids: any) => {
   const getTags = getRepository(PostsTags);
   const postsTags = await getTags
     .createQueryBuilder('posts_tags')
@@ -27,7 +27,7 @@ const TagsLoader = async (ids) => {
     (getTags) => getTags.post_id
   );
 
-  const getTag = ids.map((id) => normalized[id]);
+  const getTag = ids.map((id: any) => normalized[id]);
 
   // return groupById<PostsTags>(ids, postsTags, (pt) => pt.post_id).map((array) =>
   //   array.map((pt) => pt.name),

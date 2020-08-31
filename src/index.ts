@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import 'reflect-metadata';
 import { createConnection, getRepository } from 'typeorm';
@@ -27,15 +26,6 @@ dotenv.config();
 const main = async () => {
   const app = express();
   app.set('trust proxy', 1);
-  app.use(
-    cors({
-      origin:
-        process.env.NODE_ENV === 'production'
-          ? process.env.CORS_ORIGIN
-          : 'http://localhost:3000',
-      credentials: true,
-    }),
-  );
   app.get('/', (_req, res) => res.send('mainPage'));
   app.use(cookieParser());
   app.use(express.json({ limit: '50mb' }));
@@ -84,7 +74,9 @@ const main = async () => {
 
   server.applyMiddleware({
     app,
-    cors: false,
+    cors: {
+      credentials: true,
+    },
   });
 
   app.listen(process.env.PORT || 4000, () => {

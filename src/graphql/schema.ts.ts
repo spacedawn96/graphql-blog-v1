@@ -3,7 +3,7 @@ import { fileLoader, mergeResolvers, mergeTypes } from 'merge-graphql-schemas';
 import { makeExecutableSchema } from 'apollo-server-express';
 
 const getTypeDefs = () => {
-  return fileLoader(path.join(__dirname, 'schemas/*.graphql'));
+  return fileLoader(path.join(__dirname, 'schemas/*.ts'));
 };
 
 const getResolvers = () => {
