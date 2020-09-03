@@ -11,7 +11,6 @@ import {
   getRepository,
   getManager,
 } from 'typeorm';
-import Tag from './Tag';
 import Post from './Post';
 
 @Entity('posts_tags', {
@@ -28,10 +27,6 @@ export default class PostsTags {
   @Index()
   @Column('uuid')
   post_id!: string;
-
-  @ManyToOne((type) => Tag, { cascade: true, eager: true, nullable: true })
-  @JoinColumn({ name: 'tag_id' })
-  tag!: Tag;
 
   @ManyToOne((type) => Post, { cascade: true })
   @JoinColumn({ name: 'post_id' })

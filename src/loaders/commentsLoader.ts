@@ -1,6 +1,6 @@
 import { getRepository, getManager } from 'typeorm';
 import DataLoader from 'dataloader';
-import Comment from '../entity/Comment';
+import Comments from '../entity/Comment';
 import Post from '../entity/Post';
 
 function normalize<T>(
@@ -36,4 +36,4 @@ const CommentsLoader = async (ids: any) => {
 };
 
 export const commentsLoader = () =>
-  new DataLoader<string, Comment>(CommentsLoader);
+  new DataLoader<string, Comments>(CommentsLoader);

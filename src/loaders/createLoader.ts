@@ -1,8 +1,8 @@
 import { userLoader } from './UserLoader';
 import { profileLoader } from './ProfileLoader';
 import { followerLoader } from './followerLoader';
-import { commentsLoader } from './commentsLoader';
 import { tagsLoader } from './tagsLoader';
+import { commentsLoader } from './commentsLoader';
 
 function createLoaders() {
   return {

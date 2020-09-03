@@ -13,8 +13,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import User from './User';
-import Comment from './Comment';
-import Tag from './Tag';
+import Comments from './Comment';
 import PostsTags from './PostsTags';
 
 @Entity('posts', {
@@ -66,18 +65,9 @@ export default class Post {
   @UpdateDateColumn()
   updated_at!: Date;
 
-  @OneToMany((type) => Comment, (comment) => comment.post)
-  comments!: Comment[];
+  @OneToMany((type) => Comments, (comment) => comment.post)
+  comments!: Comments[];
 
-  @ManyToMany((type) => PostsTags)
-  @JoinTable({
-    name: 'post_tags',
-    joinColumn: {
-      name: 'post_id',
-    },
-    inverseJoinColumn: {
-      name: 'tag_id',
-    },
-  })
+  @OneToMany((type) => PostsTags, (tag) => tag.post)
   tags!: PostsTags[];
 }

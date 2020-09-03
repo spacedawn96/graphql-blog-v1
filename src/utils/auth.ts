@@ -16,7 +16,7 @@ export const createRefreshToken = (user: User) => {
     process.env.REFRESH_TOKEN_SECRET!,
     {
       expiresIn: '3d',
-    },
+    }
   );
 };
 

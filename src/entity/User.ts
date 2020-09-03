@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
+import UserProfile from './UserProfile';
 
 @Entity('users', {
   synchronize: true,
@@ -39,4 +40,7 @@ export default class User {
   @Column('timestamptz')
   @UpdateDateColumn()
   updated_at!: Date;
+
+  @OneToOne((type) => UserProfile, (profile) => profile.user)
+  profile!: UserProfile;
 }

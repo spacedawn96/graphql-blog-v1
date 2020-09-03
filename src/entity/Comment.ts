@@ -5,8 +5,11 @@ import {
   Index,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToOne,
   JoinColumn,
   ManyToOne,
+  getRepository,
+  getManager,
 } from 'typeorm';
 import User from './User';
 import Post from './Post';
@@ -14,7 +17,7 @@ import Post from './Post';
 @Entity('comments', {
   synchronize: true,
 })
-export default class Comment {
+export default class Comments {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -50,13 +53,13 @@ export default class Comment {
   @UpdateDateColumn()
   updated_at!: Date;
 
-  @ManyToOne(() => User)
+  @ManyToOne((type) => User)
   @JoinColumn({ name: 'user_id' })
   user!: User;
 
-  @ManyToOne(() => Post, (post) => post.comments)
+  @ManyToOne((type) => Post, (post) => post.comments)
   @JoinColumn({ name: 'post_id' })
   post!: Post;
 
-  subcomments!: Comment[];
+  subcomments!: Comments[];
 }

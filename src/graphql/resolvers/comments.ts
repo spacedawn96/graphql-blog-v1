@@ -1,12 +1,28 @@
 import { IResolvers, AuthenticationError, ApolloError } from 'apollo-server';
 import { getRepository } from 'typeorm';
 import Post from '../../entity/Post';
-import Comment from '../../entity/Comment';
+import Comments from '../../entity/Comment';
 import PostScore from '../../entity/PostScore';
+import gql from 'graphql-tag';
+
+export const typeDef = gql`
+  type Comment {
+    id: ID!
+    text: String
+    likes: Int
+    has_replies: Boolean
+    deleted: Boolean
+    user: User
+    post_id: String
+    reply: String
+    replies: [Comment]
+    comment: String
+  }
+`;
 
 export const resolvers: IResolvers = {
   Comment: {
-    user: (parent: Comment, _: any, { loaders }) => {
+    user: (parent: Comments, _: any, { loaders }) => {
       if (parent.deleted) {
         return null;
       }
@@ -14,9 +30,9 @@ export const resolvers: IResolvers = {
       const user = loaders.user.load(parent.user_id);
       return user;
     },
-    replies: async (parent: Comment, args: any) => {
+    replies: async (parent: Comments, args: any) => {
       if (!parent.has_replies) return [];
-      const comments = await getRepository(Comment).find({
+      const comments = await getRepository(Comments).find({
         where: {
           reply: parent.id,
           deleted: false,
@@ -31,20 +47,20 @@ export const resolvers: IResolvers = {
   Query: {
     comment: async (parent: any, { __ }) => {
       try {
-        const comment = await getRepository(Comment);
+        const comment = await getRepository(Comments);
 
-        const Comments = await comment.find({
+        const getComments = await comment.find({
           order: {
             created_at: 'ASC',
           },
         });
-        return Comments;
+        return getComments;
       } catch (err) {
         throw Error(err);
       }
     },
     subcomments: async (parent: any, { comment_id }) => {
-      const comments = await getRepository(Comment).find({
+      const comments = await getRepository(Comments).find({
         where: {
           reply: comment_id,
         },
@@ -59,8 +75,8 @@ export const resolvers: IResolvers = {
   Mutation: {
     createComment: async (_, args, { req }) => {
       const getPost = getRepository(Post);
-      const getComment = getRepository(Comment) as any;
-      const comment = new Comment() as any;
+      const getComment = getRepository(Comments) as any;
+      const comment = new Comments() as any;
       if (!req.userId) {
         throw new AuthenticationError('plz login');
       }
@@ -101,7 +117,7 @@ export const resolvers: IResolvers = {
         throw new AuthenticationError('plz login');
       }
 
-      const getComment = getRepository(Comment) as any;
+      const getComment = getRepository(Comments) as any;
       const comment = await getComment.findOne(args.id);
 
       if (!comment) {
@@ -131,7 +147,7 @@ export const resolvers: IResolvers = {
       if (!req.userId) {
         throw new AuthenticationError('plz login');
       }
-      const getComment = getRepository(Comment) as any;
+      const getComment = getRepository(Comments) as any;
 
       const comment = await getComment.findOne(args.id);
 
