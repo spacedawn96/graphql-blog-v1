@@ -1,7 +1,9 @@
-# Awesome Project Build with TypeORM
+> ## Project Stack
 
-Steps to run this project:
+- Node js
+- GraphQL
+- TypeORM
+- PostgreSQL
+- draft js
+- Typescript
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
