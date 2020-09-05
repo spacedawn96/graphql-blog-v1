@@ -4,6 +4,5 @@
 - GraphQL
 - TypeORM
 - PostgreSQL
-- draft js
 - Typescript
 
