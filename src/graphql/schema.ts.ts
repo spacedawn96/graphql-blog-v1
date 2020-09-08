@@ -8,17 +8,17 @@ import merge from 'lodash/merge';
 
 const typeDef = `
   type Query {
-    user(id: ID, username: String): User!
+    user(id: String, username: String): User!
     users: [User]
     me: User
 
-    post(id: ID): Post
+    post(id: String): Post
     posts: [Post]
     getImageUrl: ImageUrl
     topFivePost(offset: Int, limit: Int): [Post]
 
     comment: [Comment]
-    subcomments(comment_id: ID): [Comment]
+    subcomments(comment_id: String): [Comment]
   }
 
   type Mutation {
@@ -37,16 +37,16 @@ const typeDef = `
       tags: String
       thumbnail: String
     ): Post
-    editPost(id: String, title: String, body: String): Post
-    removePost(id: String!): Boolean
+    editPost(post_id: String, title: String, body: String): Post
+    removePost(post_id: String!): Boolean
     likePost(id: String!): Post
     unLikePost(id: String!): Post
     uploadImage(body: String): UploadedImage
     postView(id: String!): Boolean
 
     createComment(post_id: String, text: String, comment_id: String): Comment
-    removeComment(id: ID!): Boolean
-    editComment(id: ID!, text: String!): Comment
+    removeComment(id: String!): Boolean
+    editComment(id: String, text: String): Comment
   }
 `;
 
@@ -56,7 +56,7 @@ const resolvers: IResolvers = {
 };
 
 const schema = makeExecutableSchema({
-  typeDefs: [typeDef, user.typeDef, post.typeDef],
+  typeDefs: [typeDef, user.typeDef, post.typeDef, comments.typeDef],
   resolvers: merge(
     resolvers,
     user.resolvers,

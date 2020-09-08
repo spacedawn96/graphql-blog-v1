@@ -63,10 +63,12 @@ const main = async () => {
     playground: true,
   });
   //http://localhost:3000
+  //process.env.ORIGIN_URL
+  //http://www.nodegraphqlnext.cf
   server.applyMiddleware({
     app,
     cors: {
-      origin: process.env.ORIGIN_URL,
+      origin: 'http://www.nodegraphqlnext.cf',
       credentials: true,
     },
   });

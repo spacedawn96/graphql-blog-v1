@@ -29,7 +29,7 @@ export const typeDef = gql`
     released_at: Date
     created_at: Date
     updated_at: Date
-    comments: [Comment]
+    comments: [PostComment]
     name: String
     tags: Tag
     post_id: String
@@ -86,8 +86,8 @@ export const typeDef = gql`
     public_id: [String]
     url: String
   }
-  type Comment {
-    id: ID!
+  type PostComment {
+    id: String!
     text: String
     likes: Int
     has_replies: Boolean
@@ -95,7 +95,7 @@ export const typeDef = gql`
     user: User
     post_id: String
     reply: String
-    replies: [Comment]
+    replies: [PostComment]
     comment: String
   }
 `;

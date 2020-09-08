@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 
 export const typeDef = gql`
   type Comment {
-    id: ID!
+    id: String
     text: String
     likes: Int
     has_replies: Boolean
@@ -130,20 +130,21 @@ export const resolvers: IResolvers = {
 
       await getComment.remove(comment);
 
-      const getPostScore = getRepository(PostScore);
-      const CommentScore = await getPostScore
-        .createQueryBuilder()
-        .where('post_id = :postId', { postId: comment.post_id })
-        .andWhere('user_id = :userId', { userId: req.userId })
-        .andWhere("type = 'COMMENT'")
-        .orderBy('created_at', 'DESC')
-        .getOne();
+      // const getPostScore = getRepository(PostScore);
+      // const CommentScore = await getPostScore
+      //   .createQueryBuilder()
+      //   .where('post_id = :postId', { postId: comment.post_id })
+      //   .andWhere('user_id = :userId', { userId: req.userId })
+      //   .andWhere("type = 'COMMENT'")
+      //   .orderBy('created_at', 'DESC')
+      //   .getOne();
 
-      await getPostScore.delete(CommentScore!.id);
+      // await getPostScore.delete(CommentScore!.id);
 
       return true;
     },
     editComment: async (_, args, { req }) => {
+      console.log('hiohihihhi');
       if (!req.userId) {
         throw new AuthenticationError('plz login');
       }
